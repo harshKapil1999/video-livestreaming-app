@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers"
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
+import { resetIngress } from "@/actions/ingress";
 
 export async function POST(req:Request) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -77,7 +78,7 @@ export async function POST(req:Request) {
    }
 
    if (eventType === "user.deleted") {
-   // await resetIngresses(payload.data.id);
+    await resetIngress(payload.data.id);
 
     await db.user.delete({
       where: {
